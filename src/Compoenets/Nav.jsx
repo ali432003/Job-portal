@@ -104,7 +104,7 @@ const Nav = (props) => {
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
             <MenuItem onClick={handleClose}>
               <Avatar src={props.img ? props.img : "/img/default.png"} />{" "}
-              Profile
+              {props.name}
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleSignOut}>

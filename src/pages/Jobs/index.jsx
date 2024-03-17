@@ -11,7 +11,7 @@ import { db } from "../../firebase";
 
 const index = (props) => {
   const [Show, setShow] = useState(false);
-  console.log(props.userData)
+  // console.log(props.userData);
   return (
     <>
       <Nav name={props.name} img={props.img} />
@@ -25,65 +25,71 @@ const index = (props) => {
         Find a Suitable Job
       </Typography>
       <Divider />
-      <Grid
-        
-        container
-        spacing={{ xs: 2, md: 3 }}
-        justifyContent="center"
-        alignItems="center"
-        columns={{ xs: 4, sm: 8, md: 12 }}
-      >
-        {props.load ? (
-          <Stack sx={{ color: "grey.500" }} mt={10} spacing={2} direction="row">
-            <CircularProgress color="secondary" />
-          </Stack>
-        ) : (
-          props.data.map((job, index) => {
-            return (
-              <>
-                <Grid item xs={4} key={index}>
-                  <MainCard
-                    title={job.category.name}
-                    feas={job.jobFeseability}
-                    type={job.jobType}
-                    apply={job.applyEmail}
-                    createAt={job.createdAt}
-                    comp={job.companyName}
-                    pos={job.position}
-                    desc={job.category.description}
-                    city={job.city}
-                    hash={job.hashTags}
-                    skill={job.skills}
-                    views={job.views}
-                    main={job.desc}
-                    load={props.load}
-                  />
-                </Grid>
-                {/* {userJobs && (
-                  <Grid>
-                    <MainCard 
-                      title={userJobs.title}
-                      feas={userJobs.feas}
-                      type={userJobs.type}
-                      apply={userJobs.email}
-                      // createAt={job.createdAt}
-                      comp={userJobs.companyName}
-                      pos={userJobs.position}
-                      desc={userJobs.desc}
-                      city={userJobs.city}
-                      hash={userJobs.hashtags}
-                      skill={userJobs.skills}
-                      // views={job.views}
-                      // main={job.desc}
-                      load={props.load}
-                    />
-                  </Grid>
-                )} */}
-              </>
-            );
-          })
-        )}
-      </Grid>
+
+      {props.load ? (
+        <Stack
+          sx={{ color: "grey.500", display: "flex", justifyContent: "center" }}
+          mt={10}
+          spacing={2}
+          direction="row"
+        >
+          <CircularProgress color="secondary" />
+        </Stack>
+      ) : (
+        <Grid
+          // key={null}
+          container
+          spacing={{ xs: 5, md: 2 }}
+          justifyContent="center"
+          alignItems="center"
+        >
+          {props.data.map((job, index) => (
+            <Grid item sm={6} md={4} lg={4} key={index}>
+              <MainCard
+                title={job.category.name}
+                feas={job.jobFeseability}
+                type={job.jobType}
+                apply={job.applyEmail}
+                createAt={job.createdAt}
+                comp={job.companyName}
+                pos={job.position}
+                desc={job.category.description}
+                city={job.city}
+                hash={job.hashTags}
+                skill={job.skills}
+                views={job.views}
+                main={job.desc}
+                load={props.load}
+                cardkey={index}
+              />
+            </Grid>
+          ))}
+          {props.userData.map((userJob, index) => (
+            <Grid item sm={6} md={4} lg={4} key={index}>
+              <MainCard
+                uuid = {userJob.uniqueID}
+                title={userJob.title}
+                feas={userJob.feas}
+                type={userJob.type}
+                apply={userJob.email}
+                // createAt={userJob.createdAt}
+                comp={userJob.companyName}
+                pos={userJob.position}
+                desc={userJob.desc}
+                city={userJob.city}
+                hash={userJob.hashtags}
+                skill={userJob.skills}
+                location = {userJob.location}
+                exp={userJob.experience}
+                // views={userJob.views}
+                // main={userJob.desc}
+                load={props.load}
+                cardkey={userJob.id}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
       {/* <Outlet /> */}
       <Footer />

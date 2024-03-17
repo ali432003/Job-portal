@@ -11,27 +11,42 @@ import Jobs from "./pages/Jobs";
 import JobDetails from "./pages/JobDetails";
 import axios from "axios";
 import { ref, onValue, child, get } from "firebase/database";
+import { ToastAlert } from "./utils/toast";
 
 function App() {
   const [CurrUser, setCurrUser] = useState({});
+  // const [userSignedOut, setuserSignedOut] = useState(false);
+  const [userJobData, setuserJobData] = useState([]);
 
   useEffect(() => {
+    const readData = () => {
+      if (CurrUser.uid) {
+        onValue(ref(db, `Jobs/${CurrUser.uid}`), (snapshot) => {
+          const data = snapshot.val();
+          if (data !== null) {
+            const objectData = Object.values(data);
+            setuserJobData(objectData);
+            // console.log(objectData); // Console log inside the callback
+          }
+        });
+      }
+    };
+
     auth.onAuthStateChanged((user) => {
       if (user) {
-        // console.log("User is signed in :", user);
+        console.log("User is signed in :", user);
         setCurrUser(user);
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        // const uid = user.uid;
-        // ...
+        // setuserSignedOut(false);
       } else {
+        // setuserSignedOut(true);
         console.log("Signed Out");
-        // User is signed out
-        // ...
       }
     });
-  }, [auth]);
-  const [data, setdata] = useState([]);
+
+    readData();
+  }, [CurrUser, auth]);
+
+  const [ApiData, setApiData] = useState([]);
   const [load, setLoad] = useState(false);
 
   const fetchJobsApi = () => {
@@ -44,7 +59,7 @@ function App() {
       .then((response) => {
         // Once the promise is resolved, the response is logged
         // console.log(response.data.data);
-        setdata(response.data.data);
+        setApiData(response.data.data);
         // console.log(data);
         setLoad(false);
       })
@@ -54,15 +69,8 @@ function App() {
         setLoad(false);
       });
   };
-  const [userJobs, setUserJobs] = useState();
   useEffect(() => {
     fetchJobsApi();
-
-    const starCountRef = ref(db, "jobs/" + CurrUser.uid);
-    onValue(starCountRef, (snapshot) => {
-      const data = snapshot.val();
-      updateStarCount(postElement, data);
-    });
   }, []);
 
   const [companyName, setcompanyName] = useState("");
@@ -87,8 +95,8 @@ function App() {
               name={CurrUser.displayName}
               id={CurrUser.uid}
               img={CurrUser.photoURL}
-              data={data}
-              userData={userJobs}
+              data={ApiData}
+              userData={userJobData}
               load={load}
               companyName={companyName}
             />

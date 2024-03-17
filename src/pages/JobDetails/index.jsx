@@ -3,7 +3,8 @@ import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import ModalOverflow from "@mui/joy/ModalOverflow";
 import ModalDialog from "@mui/joy/ModalDialog";
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
+import { propTypesSelected } from "@material-tailwind/react/types/components/select";
 
 const index = (props) => {
   return (
@@ -27,9 +28,46 @@ const index = (props) => {
             </Stack>
           ) : (
             <Box>
-              <Typography
-                dangerouslySetInnerHTML={{ __html: props.mainDesc }}
-              ></Typography>
+              {props.Ulocation && !props.load ? (
+                <Box key={props.uuid} component={"div"} className="flex flex-col">
+                  <Typography> We are Hiring !!</Typography>
+                  <Box component={"br"} />
+                  
+
+                  <Box>
+                    <Typography>
+                      We are Looking for{" "+ props.Upos+ " "}
+                      <Box component={"strong"}>{props.Utitle}</Box> for our{" "}
+                      {props.Ucomp} company
+                    </Typography>
+                    <Typography>
+                      <Box component={"strong"}>{props.Uexp}</Box> years of experience required
+                    </Typography>
+                    <Box component={"br"} />
+                    <Typography>
+                      Good{" "} Skills of : {" "}
+                      <Box component={"strong"}>{props.Uskill.map((skill, ind) => `${skill}`).join(", ")}</Box>{" "}
+                      are required although
+                    </Typography>
+                    <Typography>
+                      this is an <Box component={"strong"}>{props.Ufeas}</Box>{" "} opportunity
+                    </Typography>
+                    <Box component={"br"} />
+                    <Typography>
+                      Location : <Box component={"strong"}>{props.Ulocation + " "},{" " +props.Ucity}</Box>
+                    </Typography>
+                    <Box component={"br"} />
+                    <Box component={"br"} />
+                    <Typography>
+                      If you are willing to join us appy on <Box component={"strong"}>{props.Uapply}</Box>
+                    </Typography>
+                  </Box>
+                </Box>
+              ) : (
+                <Typography
+                  dangerouslySetInnerHTML={{ __html: props.mainDesc }}
+                ></Typography>
+              )}
             </Box>
           )}
         </ModalDialog>

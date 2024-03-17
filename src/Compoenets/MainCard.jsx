@@ -15,11 +15,15 @@ import { useState } from "react";
 export default function MainCard(props) {
   const nav = useNavigate();
   function hoursAgo(isoDateString) {
-    if (!isoDateString) {
-      return <Typography>{"..."}</Typography>;
-    }
     const date = new Date(isoDateString);
     const now = new Date();
+    const day = now.getDate().toString().padStart(2, "0"); 
+    const month = (now.getMonth() + 1).toString().padStart(2, "0"); 
+    const year = now.getFullYear(); 
+    const formattedDate = `${day}/${month}/${year}`
+    if (!isoDateString) {
+      return <Typography>{formattedDate}</Typography>;
+    }
     const difference = now - date; // This gives difference in milliseconds
     const hoursAgo = Math.floor(difference / (1000 * 60 * 60)); // Convert milliseconds to hours
 
@@ -34,8 +38,8 @@ export default function MainCard(props) {
   return (
     <>
       <Tooltip title="Open details" placement="left" arrow followCursor>
-        <Card className="mt-6 border-2 rounded-lg shadow-xl p-4  mx-[1rem] hover:scale-[1.04] hover:shadow-2xl duration-200 ease-in cursor-pointer">
-          <CardBody onClick={() => setShow(true)}>
+        <Card className="mt-6 border-2 border-purple-600 rounded-lg shadow-xl p-4  mx-[2rem] hover:scale-[1.04] hover:shadow-2xl duration-200 ease-in cursor-pointer">
+          <CardBody key={props.cardkey} onClick={() => setShow(true)}>
             <Box
               variant="h5"
               className="mb-2 gap-y-2 lg:gap-y-0 md:gap-y-0 font-bold  flex md:flex-row lg:flex-row md:justify-between justify-between"
@@ -89,25 +93,41 @@ export default function MainCard(props) {
             </Typography>
           </CardFooter>
           <Box className="text-purple-950  mt-4 flex gap-2">
-            Skills :{" "}
+            Skills:
             <Typography className="text-slate-500 font-bold">
               {props.skill.map((skill, ind) => `${skill}`).join(" ")}
             </Typography>
           </Box>
           <Box className="text-slate-400 mt-4 flex justify-between">
             {props.hash.map((hash, ind) => `#${hash}`).join(" ")}
-            <Box className="text-slate-700 gap-2 flex">
-              <Typography>{props.views}</Typography>
+            <Box className="text-slate-700 gap-2 flex ms-2">
+              <Typography>{props.views ? props.views : "0"}</Typography>
               <RemoveRedEyeOutlinedIcon></RemoveRedEyeOutlinedIcon>
             </Box>
           </Box>
         </Card>
       </Tooltip>
       <JobDetails
+        // Api wley
         show={Show}
         toggleModal={toggleModal}
         mainDesc={props.main}
         load={props.load}
+        // userJob waley props
+        uuid={props.uuid}
+        Ulocation={props.location}
+        Uexp={props.exp}
+        Utitle={props.title}
+        Ufeas={props.feas}
+        Utype={props.type}
+        Uapply={props.apply}
+        Ucomp={props.comp}
+        Upos={props.pos}
+        Udesc={props.desc}
+        Ucity={props.city}
+        Uhash={props.hashtags}
+        Uskill={props.skill}
+        Ucardkey={props.cardkey}
       />
     </>
   );
