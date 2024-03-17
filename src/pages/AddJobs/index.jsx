@@ -24,13 +24,11 @@ import Footer from "../../Compoenets/Footer";
 import LoadingButton from "@mui/lab/LoadingButton";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import Stack from "@mui/material/Stack";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const index = (props) => {
-
-  
   const [data, setData] = useState({
-    jobId:"",
+    jobId: "",
     title: "",
     position: "",
     companyName: "",
@@ -46,13 +44,14 @@ const index = (props) => {
   });
 
   const [load, setLoad] = useState(false);
+  let uuid = uuidv4();
 
   function writeUserData() {
     setLoad(true);
-    let uuid = uuidv4();
-    set(ref(db, `Jobs/${props.id}/` + uuid), {
-      uniqueID: uuid,
-      id: props.id,
+
+    set(ref(db, `Jobs/${uuid}`), {
+      JobUniqueID: uuid,
+      UserId: props.id,
       username: props.name,
       email: data.email,
       title: data.title,
@@ -79,6 +78,7 @@ const index = (props) => {
   }
 
   const handleSumbit = (e) => {
+    // Corrected function name to handleSubmit
     e.preventDefault();
     setLoad(true);
 
@@ -99,7 +99,7 @@ const index = (props) => {
       setLoad(false);
       return;
     }
-    props.onSubmit(data.companyName);
+    props.onSubmit(uuid);
     writeUserData();
   };
 
@@ -239,7 +239,9 @@ const index = (props) => {
               <TextField
                 label="Skill Set"
                 onChange={(e) => {
-                  const skills = e.target.value.split(/\s+/).filter(tag => tag.trim() !== '');
+                  const skills = e.target.value
+                    .split(/\s+/)
+                    .filter((tag) => tag.trim() !== "");
                   setData((prev) => ({
                     ...prev,
                     skills: skills,
@@ -268,7 +270,7 @@ const index = (props) => {
                 label="Required Experience (yrs)"
                 fullWidth
                 color="secondary"
-                inputProps={{ min: 0, max: 99}}
+                inputProps={{ min: 0, max: 99 }}
                 onChange={(e) => {
                   let value = e.target.value;
                   if (value.length <= 2) {
@@ -284,7 +286,9 @@ const index = (props) => {
                 fullWidth
                 color="secondary"
                 onChange={(e) => {
-                  const hashtags = e.target.value.split(/\s+/).filter(tag => tag.trim() !== ''); 
+                  const hashtags = e.target.value
+                    .split(/\s+/)
+                    .filter((tag) => tag.trim() !== "");
                   setData((prev) => ({
                     ...prev,
                     hash: hashtags,

@@ -14,37 +14,38 @@ import { ref, onValue, child, get } from "firebase/database";
 import { ToastAlert } from "./utils/toast";
 
 function App() {
+  const [uuid, setUuid] = useState(""); // Corrected variable name to setUuid
+
+  const dataOfUuid = (dataOfuid) => {
+    setUuid(dataOfuid); // Corrected function name to dataOfUuid
+  };
+
   const [CurrUser, setCurrUser] = useState({});
   // const [userSignedOut, setuserSignedOut] = useState(false);
   const [userJobData, setuserJobData] = useState([]);
 
   useEffect(() => {
     const readData = () => {
-      if (CurrUser.uid) {
-        onValue(ref(db, `Jobs/${CurrUser.uid}`), (snapshot) => {
-          const data = snapshot.val();
-          if (data !== null) {
-            const objectData = Object.values(data);
-            setuserJobData(objectData);
-            // console.log(objectData); // Console log inside the callback
-          }
-        });
-      }
+      onValue(ref(db, `Jobs/`), (snapshot) => {
+        const data = snapshot.val();
+        if (data !== null) {
+          const objectData = Object.values(data);
+          setuserJobData(objectData);
+          // console.log("user job data: ", objectData);
+        }
+      });
     };
 
     auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log("User is signed in :", user);
         setCurrUser(user);
-        // setuserSignedOut(false);
       } else {
-        // setuserSignedOut(true);
         console.log("Signed Out");
       }
     });
 
     readData();
-  }, [CurrUser, auth]);
+  }, [uuid, auth]); // Added auth as a dependency
 
   const [ApiData, setApiData] = useState([]);
   const [load, setLoad] = useState(false);
@@ -73,12 +74,6 @@ function App() {
     fetchJobsApi();
   }, []);
 
-  const [companyName, setcompanyName] = useState("");
-  const dataOfCompanyName = (data) => {
-    // console.log(data)
-    setcompanyName(data);
-  };
-
   return (
     <>
       <Routes>
@@ -98,7 +93,7 @@ function App() {
               data={ApiData}
               userData={userJobData}
               load={load}
-              companyName={companyName}
+              // companyName={companyName}
             />
           }
         >
@@ -108,7 +103,7 @@ function App() {
           path="/addjobs"
           element={
             <AddJobs
-              onSubmit={dataOfCompanyName}
+              onSubmit={dataOfUuid}
               name={CurrUser.displayName}
               id={CurrUser.uid}
               img={CurrUser.photoURL}
