@@ -67,7 +67,7 @@ const index = (props) => {
           {props.userData.map((userJob, index) => (
             <Grid item sm={6} md={4} lg={4} key={index}>
               <MainCard
-                uuid = {userJob.uniqueID}
+                uuid = {userJob.u}
                 title={userJob.title}
                 feas={userJob.feas}
                 type={userJob.type}
