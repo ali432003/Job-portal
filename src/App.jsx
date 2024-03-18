@@ -14,10 +14,9 @@ import { ref, onValue, child, get } from "firebase/database";
 import { ToastAlert } from "./utils/toast";
 
 function App() {
-  const [uuid, setUuid] = useState(""); // Corrected variable name to setUuid
-
+  const [uuid, setUuid] = useState("");
   const dataOfUuid = (dataOfuid) => {
-    setUuid(dataOfuid); // Corrected function name to dataOfUuid
+    setUuid(dataOfuid); // child to parent prop passing method
   };
 
   const [CurrUser, setCurrUser] = useState({});
@@ -26,21 +25,28 @@ function App() {
 
   useEffect(() => {
     const readData = () => {
-      onValue(ref(db, `Jobs/`), (snapshot) => {
-        const data = snapshot.val();
-        if (data !== null) {
-          const objectData = Object.values(data);
-          setuserJobData(objectData);
-          // console.log("user job data: ", objectData);
-        }
-      });
+      try {
+        onValue(ref(db, `Jobs/`), (snapshot) => {
+          const data = snapshot.val();
+          if (data !== null) {
+            const objectData = Object.values(data);
+            setuserJobData(objectData);
+            // console.log("user job data: ", objectData);
+          }
+        });
+      } catch (error) {
+        console.log(error)
+      }
     };
 
     auth.onAuthStateChanged((user) => {
+
       if (user) {
         setCurrUser(user);
+        console.log("User is Signed In");
       } else {
-        console.log("Signed Out");
+        setCurrUser("")
+        console.log("User is Signed Out");
       }
     });
 

@@ -1,12 +1,8 @@
 import React from "react";
-// Assuming you have these images stored in your project's 'assets' folder
-import TeamworkImage from "/img/img1.jpg";
-import JobSearchImage from "/img/img2.jpg";
-import HandshakeImage from "/img/img3.jpg";
-import bg from "/img/bg.jpg";
+
 import { Link } from "react-router-dom";
 
-const LandingPage = () => {
+const LandingPage = (props) => {
   return (
     <div
       className=" pb-[2rem] text-purple-800"
@@ -20,7 +16,7 @@ const LandingPage = () => {
         <p className="text-xl font-bold md:text-2xl mt-8 text-slate-50 rounded-xl text-ellipsis overflow-hidden">
           Hiring Mine connects employer and job seekers, where employers are the
           source of the resources and the job seeker can find and apply for
-          their targeted job.
+          their targeted job.<span className="text-purple-600">{" "+ props.signUpContent?props.signUpContent:" "}</span>
         </p>
       </div>
 

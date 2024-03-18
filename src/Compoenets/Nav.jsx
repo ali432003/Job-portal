@@ -41,7 +41,7 @@ const Nav = (props) => {
         ToastAlert("Sign-out successful", "success");
         handleClose();
         setLoader(false);
-        navigate("/login");
+        navigate("/");
         // console.log("Sign-out successful");
       })
       .catch((error) => {
@@ -79,7 +79,7 @@ const Nav = (props) => {
                 overflow: "visible",
                 filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                 mt: 1.5,
-                bgcolor: "#93c5fd",
+                bgcolor: "white",
                 "& .MuiAvatar-root": {
                   width: 30,
                   height: 32,
@@ -94,7 +94,7 @@ const Nav = (props) => {
                   left: 14,
                   width: 10,
                   height: 10,
-                  bgcolor: "#93c5fd",
+                  bgcolor: "white",
                   transform: "translateY(-50%) rotate(45deg)",
                   zIndex: 0,
                 },
