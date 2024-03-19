@@ -137,7 +137,7 @@ export default function MainCard(props) {
         Upos={props.pos}
         Udesc={props.desc}
         Ucity={props.city}
-        Uhash={props.hashtags}
+        Uhash={props.hash}
         Uskill={props.skill}
         Ucardkey={props.cardkey}
       />

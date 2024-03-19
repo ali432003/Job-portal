@@ -2,12 +2,11 @@ import React from "react";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Nav from "../../Compoenets/Nav";
-import Container from "@mui/material/Container";
 import Footer from "../../Compoenets/Footer";
 import HomeMain from "../../Compoenets/LandingPage";
 import About from "../About";
 import Contribute from "../Contribute";
-import Contact from "../Contact";
+
 
 
 const Home = (props) => {
@@ -36,7 +35,6 @@ const Home = (props) => {
       }
       <About/>
       <Contribute/>
-      <Contact/>
       <Footer />
     </>
   );

@@ -60,7 +60,8 @@ const Nav = (props) => {
               onClick={handleClick}
               aria-controls={open ? "account-menu" : undefined}
               aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}>
+              aria-expanded={open ? "true" : undefined}
+            >
               <Avatar
                 alt={props.name}
                 src={props.img ? props.img : "/img/default.png"}
@@ -101,10 +102,13 @@ const Nav = (props) => {
               },
             }}
             transformOrigin={{ horizontal: "right", vertical: "top" }}
-            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
             <MenuItem onClick={handleClose}>
-              <Avatar src={props.img ? props.img : "/img/default.png"} />{" "}
-              {props.name}
+              <Link to="/profile" className="flex gap-3">
+                <Avatar src={props.img ? props.img : "/img/default.png"} />
+                {props.name}
+              </Link>
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleSignOut}>

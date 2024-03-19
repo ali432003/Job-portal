@@ -1,6 +1,7 @@
 import React from 'react';
 // Replace the import path with your actual image path
 import about from '/img/about.jpg';
+import { Link } from 'react-router-dom';
 
 const index = () => {
     return (
@@ -18,9 +19,9 @@ const index = () => {
                         Over the years, we have achieved [achievement] and have been recognized for [recognition]. We are committed to continuing our quest for excellence, always pushing the boundaries of innovation.
                     </p>
                     <div className="mt-4">
-                        <a href="/contact" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <Link to="/contact" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Contact Us
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

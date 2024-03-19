@@ -5,39 +5,101 @@ import MainCard from "../../Compoenets/MainCard";
 import { Box, Divider, Grid, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
-import { Outlet } from "react-router-dom";
-import { ref, child, get } from "firebase/database";
-import { db } from "../../firebase";
+import InputField from "../../Compoenets/InputField";
+import SearchIcon from '@mui/icons-material/Search';
 
-const index = (props) => {
-  const [Show, setShow] = useState(false);
-  // console.log(props.userData);
+const Index = (props) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  
+  // Search function for API fetched jobs
+  const searchApiJobs = (term) => {
+    const filteredApiJobs = props.data.filter(job =>
+      job.category.name.toLowerCase().includes(term.toLowerCase())
+    );
+    return filteredApiJobs;
+  };
+
+  // Search function for user-added jobs
+  const searchUserJobs = (term) => {
+    const filteredUserJobs = props.userData.filter(job =>
+      job.title.toLowerCase().includes(term.toLowerCase())
+    );
+    return filteredUserJobs;
+  };
+
+  useEffect(() => {
+    if (searchTerm) {
+      
+      const apiResults = searchApiJobs(searchTerm);
+      
+      const userResults = searchUserJobs(searchTerm);
+      
+      const combinedResults = [...apiResults, ...userResults];
+      setSearchResults(combinedResults);
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchTerm, props.data, props.userData]);
+
   return (
     <>
       <Nav name={props.name} img={props.img} />
-
-      <Typography
-        variant="h2"
-        className="text-slate-500"
-        marginX={"1rem"}
-        marginY={"2rem"}
-      >
-        Find a Suitable Job
-      </Typography>
+      <Box component={"div"} className="flex justify-between my-[2rem] mx-[2rem]">
+        <Typography
+          variant="h2"
+          className="text-slate-500 lg:text-xl  text-lg"
+        >
+          Find a Suitable Job
+        </Typography>
+        <InputField 
+          type={"text"} 
+          placeholder={"Find a Job"} 
+          style={{border:"1px solid #64748b"}} 
+          onChange={(e)=>{setSearchTerm(e.target.value)}}
+          icon={<SearchIcon/>}
+        />
+      </Box>
       <Divider />
 
-      {props.load ? (
-        <Stack
-          sx={{ color: "grey.500", display: "flex", justifyContent: "center" }}
-          mt={10}
-          spacing={2}
-          direction="row"
+      {searchTerm && (
+        <Typography variant="h6" sx={{mx:"4rem",my:"2rem",color:"#475569"}}>
+          Search Results for "{searchTerm}"
+        </Typography>
+      )}
+
+      {searchResults.length > 0 ? (
+        <Grid
+          container
+          spacing={{ xs: 5, md: 2 }}
+          justifyContent="center"
+          alignItems="center"
         >
-          <CircularProgress color="secondary" />
-        </Stack>
+          {searchResults.map((job, index) => (
+            <Grid item sm={6} md={4} lg={4} key={index}>
+              <MainCard
+                title={job.title || job.category?.name} // Use API title or user title
+                feas={job.jobFeseability || job.feas} // Adjust for different field names
+                type={job.jobType || job.type} // Adjust for different field names
+                apply={job.applyEmail || job.email} // Adjust for different field names
+                comp={job.companyName}
+                pos={job.position}
+                desc={job?.Userdesc || job.category?.description} // Adjust for different field names
+                city={job.city}
+                hash={job.hashTags || job.hashtags} // Adjust for different field names
+                skill={job.skills}
+                views={job.views}
+                main={job.desc} // Assuming this is the main description
+                location = {job?.location}
+                exp={job?.experience}
+                load={props.load}
+                cardkey={index}
+              />
+            </Grid>
+          ))}
+        </Grid>
       ) : (
         <Grid
-          // key={null}
           container
           spacing={{ xs: 5, md: 2 }}
           justifyContent="center"
@@ -62,39 +124,13 @@ const index = (props) => {
                 load={props.load}
                 cardkey={index}
               />
-            </Grid>
-          ))}
-          {props.userData.map((userJob, index) => (
-            <Grid item sm={6} md={4} lg={4} key={index}>
-              <MainCard
-                uuid = {userJob.uuid}
-                title={userJob.title}
-                feas={userJob.feas}
-                type={userJob.type}
-                apply={userJob.email}
-                // createAt={userJob.createdAt}
-                comp={userJob.companyName}
-                pos={userJob.position}
-                desc={userJob.desc}
-                city={userJob.city}
-                hash={userJob.hashtags}
-                skill={userJob.skills}
-                location = {userJob.location}
-                exp={userJob.experience}
-                // views={userJob.views}
-                // main={userJob.desc}
-                load={props.load}
-                cardkey={userJob.id}
-              />
-            </Grid>
-          ))}
+            </Grid>))}
         </Grid>
       )}
 
-      {/* <Outlet /> */}
       <Footer />
     </>
   );
 };
 
-export default index;
+export default Index;

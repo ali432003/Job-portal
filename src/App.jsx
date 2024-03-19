@@ -8,10 +8,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { Bounce, ToastContainer } from "react-toastify";
 import AddJobs from "./pages/AddJobs";
 import Jobs from "./pages/Jobs";
+import Contact from "./pages/Contact";
 import JobDetails from "./pages/JobDetails";
 import axios from "axios";
 import { ref, onValue, child, get } from "firebase/database";
 import { ToastAlert } from "./utils/toast";
+import Profile from "./pages/Profile";
+import PrivateRoute from "./routes/PrivateRoute";
+import AuthRoute from "./routes/AuthRoute";
+import { CircularProgress } from "@mui/material";
 
 function App() {
   const [uuid, setUuid] = useState("");
@@ -20,8 +25,9 @@ function App() {
   };
 
   const [CurrUser, setCurrUser] = useState({});
-  // const [userSignedOut, setuserSignedOut] = useState(false);
+  const [userSigned, setuserSigned] = useState(auth.currentUser !== null);
   const [userJobData, setuserJobData] = useState([]);
+  const [authStateLoaded, setAuthStateLoaded] = useState(false);
 
   useEffect(() => {
     const readData = () => {
@@ -35,23 +41,28 @@ function App() {
           }
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
 
-    auth.onAuthStateChanged((user) => {
-
+    readData();
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setCurrUser(user);
-        console.log("User is Signed In");
+        setuserSigned(true);
       } else {
-        setCurrUser("")
-        console.log("User is Signed Out");
+        setCurrUser("");
+        setuserSigned(false);
       }
+      setAuthStateLoaded(true);
     });
 
-    readData();
+    return () => unsubscribe();
   }, [uuid, auth]); // Added auth as a dependency
+
+  //   if (!authStateLoaded) {
+  //     return <LoadingSpinner />; // Replace LoadingSpinner with your loading indicator
+  // }
 
   const [ApiData, setApiData] = useState([]);
   const [load, setLoad] = useState(false);
@@ -80,15 +91,21 @@ function App() {
     fetchJobsApi();
   }, []);
 
+  if (!authStateLoaded) {
+    return <CircularProgress className="ms-[10rem] mt-[20rem] md:ms-[23rem] lg:ms-[50rem] lg:mt-[40rem]"/>; // Replace LoadingSpinner with your loading indicator
+  }
+
   return (
     <>
       <Routes>
         <Route
           index
           element={<Home name={CurrUser.displayName} img={CurrUser.photoURL} />}
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        ></Route>
+        <Route element={<AuthRoute sign={userSigned} />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Route>
         <Route
           path="/jobs"
           element={
@@ -116,6 +133,33 @@ function App() {
             />
           }
         />
+        <Route
+          path="/contact"
+          element={
+            <Contact
+              name={CurrUser.displayName}
+              img={CurrUser.photoURL}
+              sign={userSigned}
+            />
+          }
+        />
+
+        {/* usage of private route */}
+
+        <Route element={<PrivateRoute sign={userSigned} />}>
+          <Route
+            path="/profile"
+            element={
+              <Profile
+                name={CurrUser.displayName}
+                email={CurrUser.email}
+                creatdate={CurrUser.metadata?.creationTime}
+                lastSeen={CurrUser.metadata?.lastSignInTime}
+                img={CurrUser.photoURL}
+              />
+            }
+          />
+        </Route>
       </Routes>
 
       <ToastContainer

@@ -60,7 +60,7 @@ const index = (props) => {
       type: data.type,
       location: data.location,
       city: data.city,
-      desc: data.desc,
+      Userdesc: data.desc,
       skills: data.skills,
       feas: data.feas,
       hashtags: data.hash,

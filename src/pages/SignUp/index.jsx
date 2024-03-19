@@ -12,8 +12,23 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import CircularProgress from "@mui/material/CircularProgress";
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/material/styles';
 
 
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 const SignUp = (props) => {
   const navigate = useNavigate();
@@ -29,7 +44,7 @@ const SignUp = (props) => {
     const file = event.target.files[0];
     if (!file) {
       ToastAlert("No Image is choosen", "error");
-      setLoader(false)
+      setLoader(false);
       return;
     }
 
@@ -53,10 +68,10 @@ const SignUp = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoader(true)
+    setLoader(true);
     if (!values.fname || !values.email || !values.pass) {
       ToastAlert("Fill All Fields", "warning");
-      setLoader(false)
+      setLoader(false);
       return;
     }
 
@@ -78,13 +93,13 @@ const SignUp = (props) => {
           values.email,
           values.pass,
           imageUrl
-          );
-          setLoader(false)
-          navigate("/login");
-        })
+        );
+        setLoader(false);
+        navigate("/login");
+      })
       .catch((error) => {
         ToastAlert(error.message, "error");
-        setLoader(false)
+        setLoader(false);
         console.log("error", error);
       });
   };
@@ -137,24 +152,24 @@ const SignUp = (props) => {
               setvalue((prev) => ({ ...prev, pass: e.target.value }));
             }}
           />
-          <InputField
-            label={"Upload your Profile Picture"}
-            placeholder={"Enter Password"}
-            type={"file"}
-            accept={".jpg, .jpeg, .png"}
-            onChange={handleFileChange}
-          />
+          <Button
+            sx={{mt:3}}
+            component="label"
+            role={undefined}
+            variant="contained"
+            color="secondary"
+            tabIndex={-1}
+            startIcon={<CloudUploadIcon />}
+          >
+            Upload a Profile Picture
+            <VisuallyHiddenInput onChange={handleFileChange}  type="file" />
+          </Button>
           <button
             type="submit"
             disabled={""}
-            className="my-4 w-full py-2 tracking-wider font-bold text-lg bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 text-white">
-            {loader ? (
-              <CircularProgress
-                sx={{color: "white"}}
-              />
-            ) : (
-              "Sign up"
-            )}
+            className="my-4 w-full py-2 tracking-wider font-bold text-lg bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 text-white"
+          >
+            {loader ? <CircularProgress sx={{ color: "white" }} /> : "Sign up"}
           </button>
         </form>
         <footer>
