@@ -1,9 +1,10 @@
 import React from 'react';
+import lappy from "/img/bg.webp"
 
 const index = () => {
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
-            <div className="bg-white shadow-xl rounded-lg p-8 max-w-2xl w-full">
+        <div className="min-h-screen flex  items-center justify-center bg-gray-50 p-4">
+            <div className="bg-white  rounded-lg p-8 max-w-2xl w-full">
                 <h2 className="text-3xl font-bold mb-4 text-center">Contribute to Our Project</h2>
                 <p className="mb-4">
                     Our project thrives on contributions from our community. Whether you're a developer, designer, content creator, or just someone with great ideas, there's a place for you to help.
@@ -25,11 +26,14 @@ const index = () => {
                         To start contributing, please visit our GitHub repository or contact us directly for more information on how you can get involved.
                     </p>
                     <div className="flex justify-center">
-                        <a href="https://github.com/yourproject/repository" target="_blank" rel="noopener noreferrer" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="https://github.com/ali432003/Job-portal" target="_blank" rel="noopener noreferrer" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Visit Our GitHub
                         </a>
                     </div>
                 </div>
+            </div>
+            <div>
+                <img src={lappy}  />
             </div>
         </div>
     );

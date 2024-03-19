@@ -1,29 +1,29 @@
 import React from "react";
+import bg from "/img/about.webp"
 
 import { Link } from "react-router-dom";
 
 const LandingPage = (props) => {
   return (
     <div
-      className=" pb-[2rem] text-purple-800"
-      style={{ backgroundColor: `black` }}
+      className=" pb-[2rem] text-purple-800 flex justify-center flex-col"
+      style={{backgroundPosition:"center",backgroundSize:"cover",backgroundRepeat:"no-repeat",backgroundImage:`url(${bg})`,height:"100vh" }}
     >
       <div className="text-start pt-10 md:pt-20 mx-[2rem]">
-        <h1 className="text-4xl md:text-6xl font-bold">
+        <h1 className="text-4xl md:text-6xl my-3 font-bold">
           Dig. Apply, <br />
           Prepare Your Future.
         </h1>
-        <p className="text-xl font-bold md:text-2xl mt-8 text-slate-50 rounded-xl text-ellipsis overflow-hidden">
-          Hiring Mine connects employer and job seekers, where employers are the
-          source of the resources and the job seeker can find and apply for
-          their targeted job.<span className="text-purple-600">{" "+ props.signUpContent?props.signUpContent:" "}</span>
+        <p className="text-xl my-2 font-bold md:text-2xl text-slate-950 text-ellipsis overflow-hidden">
+          Find the job that fits your lifestyle
         </p>
+          <span className="text-purple-800 font-bold text-3xl">{" "+ props.signUpContent?props.signUpContent:" "}</span>
       </div>
 
-      <div className="text-center mt-[2rem] md:mt-20">
+      <div className=" mx-[2rem] mt-4">
         <Link to="/jobs">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded"
           >
             Explore Opportunities
           </button>

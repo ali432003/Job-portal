@@ -92,7 +92,9 @@ function App() {
   }, []);
 
   if (!authStateLoaded) {
-    return <CircularProgress className="ms-[10rem] mt-[20rem] md:ms-[23rem] lg:ms-[50rem] lg:mt-[40rem]"/>; // Replace LoadingSpinner with your loading indicator
+    return (
+      <CircularProgress className="ms-[10rem] mt-[20rem] md:ms-[23rem] lg:ms-[50rem] lg:mt-[40rem]" />
+    ); // Replace LoadingSpinner with your loading indicator
   }
 
   return (
@@ -102,6 +104,9 @@ function App() {
           index
           element={<Home name={CurrUser.displayName} img={CurrUser.photoURL} />}
         ></Route>
+
+        {/* usage of private route */}
+
         <Route element={<AuthRoute sign={userSigned} />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
@@ -122,17 +127,7 @@ function App() {
         >
           <Route path="jobDetails" element={<JobDetails />} />
         </Route>
-        <Route
-          path="/addjobs"
-          element={
-            <AddJobs
-              onSubmit={dataOfUuid}
-              name={CurrUser.displayName}
-              id={CurrUser.uid}
-              img={CurrUser.photoURL}
-            />
-          }
-        />
+
         <Route
           path="/contact"
           element={
@@ -155,6 +150,17 @@ function App() {
                 email={CurrUser.email}
                 creatdate={CurrUser.metadata?.creationTime}
                 lastSeen={CurrUser.metadata?.lastSignInTime}
+                img={CurrUser.photoURL}
+              />
+            }
+          />
+          <Route
+            path="/addjobs"
+            element={
+              <AddJobs
+                onSubmit={dataOfUuid}
+                name={CurrUser.displayName}
+                id={CurrUser.uid}
                 img={CurrUser.photoURL}
               />
             }
