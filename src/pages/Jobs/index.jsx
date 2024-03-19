@@ -45,7 +45,7 @@ const Index = (props) => {
   return (
     <>
       <Nav name={props.name} img={props.img} />
-      <Box component={"div"} className="flex justify-between my-[2rem] mx-[2rem]">
+      <Box component={"div"} className="flex lg:flex-row flex-col justify-between my-[2rem] mx-[2rem]">
         <Typography
           variant="h2"
           className="text-slate-500 lg:text-xl  text-lg"
@@ -63,9 +63,9 @@ const Index = (props) => {
       <Divider />
 
       {searchTerm && (
-        <Typography variant="h6" sx={{mx:"4rem",my:"2rem",color:"#475569"}}>
-          Search Results for "{searchTerm}"
-        </Typography>
+        <Box component={"h6"} className="mx-[4rem] lg:my-[2rem] text-[#475569] flex gap-2" >
+          Search Results for <Box className="text-purple-500 font-bold italic">{searchTerm}</Box>
+        </Box>
       )}
 
       {searchResults.length > 0 ? (
