@@ -3,7 +3,7 @@ import lappy from "/img/bg.webp"
 
 const index = () => {
     return (
-        <div className="min-h-screen flex  items-center justify-center bg-gray-50 p-4">
+        <div className="min-h-screen flex lg:flex-row flex-col items-center justify-center bg-gray-50 p-4">
             <div className="bg-white  rounded-lg p-8 max-w-2xl w-full">
                 <h2 className="text-3xl font-bold mb-4 text-center">Contribute to Our Project</h2>
                 <p className="mb-4">
