@@ -68,25 +68,25 @@ function App() {
     
   }, [uuid, auth]); // Added auth as a dependency
 
-  // useEffect(() => {
-  //   const  unsubscribe =  auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       // User is signed in
-  //       // Access the user's photoURL here
-  //       setCurrUser(user);
-  //       setuserSigned(true);
-  //       console.log(user.photoURL);
-  //       // You can perform further actions with the photoURL
-  //     } else {
-  //       setCurrUser("");
-  //       setuserSigned(false);
-  //     }
-  //     setAuthStateLoaded(true);
-  //   });
+  useEffect(() => {
+    const  unsubscribe =  auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in
+        // Access the user's photoURL here
+        setCurrUser(user);
+        setuserSigned(true);
+        console.log(user.photoURL);
+        // You can perform further actions with the photoURL
+      } else {
+        setCurrUser("");
+        setuserSigned(false);
+      }
+      setAuthStateLoaded(true);
+    });
   
-  //   // Clean up the listener
-  //   return () => unsubscribe();
-  // }, []);
+    // Clean up the listener
+    return () => unsubscribe();
+  }, []);
 
   //   if (authStateLoaded) {
   //     return <LoadingSpinner />; // Replace LoadingSpinner with your loading indicator
