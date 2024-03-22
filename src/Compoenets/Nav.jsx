@@ -66,10 +66,10 @@ const Nav = (props) => {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              {props.img ? <Avatar
+              <Avatar
                 alt={props.name}
                 src={props.img || deaultImg}
-              /> : <CircularProgress/>}
+              /> 
             </IconButton>
           </Tooltip>
           <Menu

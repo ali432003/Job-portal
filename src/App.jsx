@@ -63,7 +63,7 @@ function App() {
       }
     };
 
-    
+    readDataFromDB() // user credendials data
 
     
   }, [uuid, auth]); // Added auth as a dependency
@@ -75,7 +75,7 @@ function App() {
         // Access the user's photoURL here
         setCurrUser(user);
         setuserSigned(true);
-        console.log(user.photoURL);
+        // console.log(user.photoURL);
         // You can perform further actions with the photoURL
       } else {
         setCurrUser("");
