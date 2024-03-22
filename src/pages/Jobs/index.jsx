@@ -44,7 +44,7 @@ const Index = (props) => {
 
   return (
     <>
-      <Nav name={props.name} img={props.img} />
+      <Nav name={props.name} sign={props.sign} img={props.img} />
       <Box component={"div"} className="flex lg:flex-row flex-col justify-between my-[2rem] mx-[2rem]">
         <Typography
           variant="h2"

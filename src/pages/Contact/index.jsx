@@ -8,7 +8,7 @@ import Nav from "../../Compoenets/Nav";
 const index = (props) => {
   return (
     <>
-      <Nav name={props.name} img={props.img} />
+      <Nav name={props.name} sign={props.sign} img={props.img} />
       {props.sign ? (
         <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gray-50 p-4">
           <div className="md:w-1/2">

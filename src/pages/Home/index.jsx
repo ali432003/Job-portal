@@ -14,7 +14,7 @@ const Home = (props) => {
 
   return (
     <>
-      <Nav name={props.name} img={props.img} />
+      <Nav name={props.name} sign={props.sign} img={props.img} />
 
       {
         <div>

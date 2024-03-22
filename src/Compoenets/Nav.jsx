@@ -16,6 +16,8 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import deaultImg from "/img/default.png"
+import { CircularProgress } from "@mui/material";
 
 const Nav = (props) => {
   const navigate = useNavigate();
@@ -41,6 +43,7 @@ const Nav = (props) => {
         ToastAlert("Sign-out successful", "success");
         handleClose();
         setLoader(false);
+        localStorage.clear()
         navigate("/");
         // console.log("Sign-out successful");
       })
@@ -51,21 +54,22 @@ const Nav = (props) => {
         console.log("Error occured", error);
       });
   };
+  
   return (
     <div className="flex  w-full justify-between text-xl py-1 shadow-md px-3 sticky top-0 z-10 bg-white">
-      {props.name ? (
+      {props.sign ? (
         <>
-          <Tooltip title={`${props.name.toUpperCase()}`} arrow={false}>
+          <Tooltip title={`${props.name}`} arrow={false}>
             <IconButton
               onClick={handleClick}
               aria-controls={open ? "account-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              <Avatar
+              {props.img ? <Avatar
                 alt={props.name}
-                src={props.img ? props.img : "/img/default.png"}
-              />
+                src={props.img || deaultImg}
+              /> : <CircularProgress/>}
             </IconButton>
           </Tooltip>
           <Menu
@@ -106,7 +110,7 @@ const Nav = (props) => {
           >
             <MenuItem onClick={handleClose}>
               <Link to="/profile" className="flex gap-3">
-                <Avatar src={props.img ? props.img : "/img/default.png"} />
+                <Avatar src={props.img || deaultImg} />
                 {props.name}
               </Link>
             </MenuItem>

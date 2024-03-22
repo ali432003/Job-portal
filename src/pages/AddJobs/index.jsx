@@ -102,10 +102,10 @@ const index = (props) => {
     props.onSubmit(uuid);
     writeUserData();
   };
-
+  
   return (
     <>
-      <Nav name={props.name} img={props.img} />
+      <Nav name={props.name} sign={props.sign} img={props.img} />
       <Typography
         variant="h2"
         className="text-slate-500"

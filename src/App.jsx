@@ -25,9 +25,10 @@ function App() {
   };
 
   const [CurrUser, setCurrUser] = useState({});
-  const [userSigned, setuserSigned] = useState(auth.currentUser !== null);
+  const [userSigned, setuserSigned] = useState(false);
   const [userJobData, setuserJobData] = useState([]);
   const [authStateLoaded, setAuthStateLoaded] = useState(false);
+  const [userData, setuserData] = useState([]);
 
   useEffect(() => {
     const readData = () => {
@@ -45,22 +46,49 @@ function App() {
       }
     };
 
-    readData();
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setCurrUser(user);
-        setuserSigned(true);
-      } else {
-        setCurrUser("");
-        setuserSigned(false);
-      }
-      setAuthStateLoaded(true);
-    });
+    readData(); // jobs data
 
-    return () => unsubscribe();
+    const readDataFromDB = () => {
+      try {
+        onValue(ref(db, `users/${CurrUser.uid}`), (snapshot) => {
+          const data = snapshot.val();
+          if (data !== null) {
+            const objectData = Object.values(data);
+            setuserData(objectData);
+            // console.log("user job data: ", objectData);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    
+
+    
   }, [uuid, auth]); // Added auth as a dependency
 
-  //   if (!authStateLoaded) {
+  // useEffect(() => {
+  //   const  unsubscribe =  auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       // User is signed in
+  //       // Access the user's photoURL here
+  //       setCurrUser(user);
+  //       setuserSigned(true);
+  //       console.log(user.photoURL);
+  //       // You can perform further actions with the photoURL
+  //     } else {
+  //       setCurrUser("");
+  //       setuserSigned(false);
+  //     }
+  //     setAuthStateLoaded(true);
+  //   });
+  
+  //   // Clean up the listener
+  //   return () => unsubscribe();
+  // }, []);
+
+  //   if (authStateLoaded) {
   //     return <LoadingSpinner />; // Replace LoadingSpinner with your loading indicator
   // }
 
@@ -93,8 +121,17 @@ function App() {
 
   if (!authStateLoaded) {
     return (
-      <CircularProgress className="ms-[10rem] mt-[20rem] md:ms-[23rem] lg:ms-[50rem] lg:mt-[40rem]" />
-    ); // Replace LoadingSpinner with your loading indicator
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
   }
 
   return (
@@ -102,14 +139,19 @@ function App() {
       <Routes>
         <Route
           index
-          element={<Home name={CurrUser.displayName} img={CurrUser.photoURL} />}
+          element={
+            <Home
+              name={CurrUser.displayName}
+              sign={userSigned}
+              img={CurrUser.photoURL}
+            />
+          }
         ></Route>
 
-        {/* usage of private route */}
-
-        <Route element={<AuthRoute sign={userSigned} />}>
+        {/* usage of AuthRoute route */}
+        <Route element={<AuthRoute />}>
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signup" element={<SignUp setCurrUser={setCurrUser}/>} />
         </Route>
         <Route
           path="/jobs"
@@ -121,6 +163,7 @@ function App() {
               data={ApiData}
               userData={userJobData}
               load={load}
+              sign={userSigned}
               // companyName={companyName}
             />
           }
@@ -146,11 +189,13 @@ function App() {
             path="/profile"
             element={
               <Profile
+                sign={userSigned}
                 name={CurrUser.displayName}
                 email={CurrUser.email}
                 creatdate={CurrUser.metadata?.creationTime}
                 lastSeen={CurrUser.metadata?.lastSignInTime}
                 img={CurrUser.photoURL}
+                id={CurrUser.uid}
               />
             }
           />
@@ -162,6 +207,7 @@ function App() {
                 name={CurrUser.displayName}
                 id={CurrUser.uid}
                 img={CurrUser.photoURL}
+                sign={userSigned}
               />
             }
           />

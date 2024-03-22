@@ -86,6 +86,7 @@ const SignUp = (props) => {
           displayName: values.fname,
           photoURL: imageUrl,
         });
+        
         // Now write user data with image URL
         writeUserData(
           user.uid,
@@ -96,16 +97,19 @@ const SignUp = (props) => {
         );
         setLoader(false);
         navigate("/login");
+        localStorage.setItem("uid",user.uid)
       })
       .catch((error) => {
         ToastAlert(error.message, "error");
         setLoader(false);
         console.log("error", error);
       });
+
+      
   };
 
   function writeUserData(userId, name, email, password, imageUrl) {
-    set(ref(db, "users/" + name), {
+    set(ref(db, "users/" + userId), {
       id: userId,
       username: name,
       email: email,
