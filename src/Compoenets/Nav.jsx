@@ -16,7 +16,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import deaultImg from "/img/default.png"
+import deaultImg from "/img/default.png";
 import { CircularProgress } from "@mui/material";
 
 const Nav = (props) => {
@@ -43,7 +43,7 @@ const Nav = (props) => {
         ToastAlert("Sign-out successful", "success");
         handleClose();
         setLoader(false);
-        localStorage.clear()
+        localStorage.clear();
         navigate("/");
         // console.log("Sign-out successful");
       })
@@ -54,7 +54,7 @@ const Nav = (props) => {
         console.log("Error occured", error);
       });
   };
-  
+  // console.log(props.sign)
   return (
     <div className="flex  w-full justify-between text-xl py-1 shadow-md px-3 sticky top-0 z-10 bg-white">
       {props.sign ? (
@@ -66,10 +66,7 @@ const Nav = (props) => {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              <Avatar
-                alt={props.name}
-                src={props.img || deaultImg}
-              /> 
+              <Avatar alt={props.name} src={props.img || deaultImg} />
             </IconButton>
           </Tooltip>
           <Menu

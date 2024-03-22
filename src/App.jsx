@@ -88,6 +88,12 @@ function App() {
     return () => unsubscribe();
   }, []);
 
+  // const [Img, setImg] = useState("");
+  // useEffect(() => {
+  //   setImg(CurrUser.photoURL)
+  // }, [CurrUser]);
+  // console.log(Img)
+
   //   if (authStateLoaded) {
   //     return <LoadingSpinner />; // Replace LoadingSpinner with your loading indicator
   // }
