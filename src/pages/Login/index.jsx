@@ -31,10 +31,12 @@ const Login = () => {
         ToastAlert("Sucessfully loged in", "success");
         setLoader(false)
         navigate("/");
+        localStorage.setItem("uid",user.uid)
       })
       .catch((error) => {
         setLoader(false)
         ToastAlert(error.message, "error");
+        localStorage.clear()
       });
   };
 

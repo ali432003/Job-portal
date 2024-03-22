@@ -103,9 +103,10 @@ const SignUp = (props) => {
         ToastAlert(error.message, "error");
         setLoader(false);
         console.log("error", error);
+        localStorage.clear()
       });
 
-      
+
   };
 
   function writeUserData(userId, name, email, password, imageUrl) {
